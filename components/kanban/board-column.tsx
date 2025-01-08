@@ -1,4 +1,5 @@
-import { useDndContext, type UniqueIdentifier } from '@dnd-kit/core';
+import { Task } from '@/types/tasks';
+import { useDndContext } from '@dnd-kit/core';
 import { SortableContext, useSortable } from '@dnd-kit/sortable';
 import { CSS } from '@dnd-kit/utilities';
 import { cva } from 'class-variance-authority';
@@ -10,17 +11,10 @@ import { ColumnActions } from './column-action';
 import { TaskCard } from './task-card';
 import { ScrollArea, ScrollBar } from '@/components/ui/scroll-area';
 import NewTaskDialog from './new-task-dialog';
-import { Task } from '@/types/tasks';
-
-export interface Column {
-  id: UniqueIdentifier;
-  title: string;
-}
-
-export type ColumnType = 'Column';
+import { Column } from '@/types/tasks';
 
 export interface ColumnDragData {
-  type: ColumnType;
+  type: 'Column';
   column: Column;
 }
 
@@ -32,8 +26,8 @@ interface BoardColumnProps {
 
 export function BoardColumn({ column, tasks, isOverlay }: BoardColumnProps) {
   const tasksIds = useMemo(() => {
-    return tasks.map((task) => task.id);
-  }, [tasks]);
+    return column.tasks.map((task) => task.id);
+  }, [column.tasks]);
 
   const {
     setNodeRef,
@@ -72,38 +66,36 @@ export function BoardColumn({ column, tasks, isOverlay }: BoardColumnProps) {
   );
 
   return (
-    <>
-      <Card
-        ref={setNodeRef}
-        style={style}
-        className={variants({
-          dragging: isOverlay ? 'overlay' : isDragging ? 'over' : undefined
-        })}
-      >
-        <CardHeader className="space-between flex flex-row items-center border-b-2 p-4 text-left font-semibold">
-          <Button
-            variant={'ghost'}
-            {...attributes}
-            {...listeners}
-            className=" relative -ml-2 h-auto cursor-grab p-1 text-primary/50"
-          >
-            <span className="sr-only">{`Move column: ${column.title}`}</span>
-            <GripVertical />
-          </Button>
-          <ColumnActions id={column.id} title={column.title} />
-        </CardHeader>
-        <NewTaskDialog />
-        <CardContent className="flex flex-grow flex-col gap-4 overflow-x-hidden p-2">
-          <ScrollArea className="h-full">
-            <SortableContext items={tasksIds}>
-              {tasks.map((task) => (
-                <TaskCard key={task.id} task={task} />
-              ))}
-            </SortableContext>
-          </ScrollArea>
-        </CardContent>
-      </Card>
-    </>
+    <Card
+      ref={setNodeRef}
+      style={style}
+      className={variants({
+        dragging: isOverlay ? 'overlay' : isDragging ? 'over' : undefined
+      })}
+    >
+      <CardHeader className="space-between flex flex-row items-center border-b-2 p-4 text-left font-semibold">
+        <Button
+          variant={'ghost'}
+          {...attributes}
+          {...listeners}
+          className="relative -ml-2 h-auto cursor-grab p-1 text-primary/50"
+        >
+          <span className="sr-only">{`Move column: ${column.title}`}</span>
+          <GripVertical />
+        </Button>
+        <ColumnActions id={column.id} title={column.title} />
+      </CardHeader>
+      <CardContent className="flex flex-grow flex-col gap-4 overflow-x-hidden p-2">
+        <ScrollArea className="h-full">
+          <NewTaskDialog columnId={column.id} />
+          <SortableContext items={tasksIds}>
+            {tasks.map((task) => (
+              <TaskCard key={task.id} task={task} />
+            ))}
+          </SortableContext>
+        </ScrollArea>
+      </CardContent>
+    </Card>
   );
 }
 

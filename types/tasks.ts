@@ -1,18 +1,12 @@
 export type Column = {
   id: string;
   title: string;
+  tasks: Task[];
 };
 
-export type Status = 'TODO' | 'IN_PROGRESS' | 'DONE';
 export type Task = {
+  columnId: string;
   id: string;
   title: string;
   description?: string;
-  status: Status;
-};
-
-export type State = {
-  tasks: Task[];
-  columns: Column[];
-  draggedTask: string | null;
 };

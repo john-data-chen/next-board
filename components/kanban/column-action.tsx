@@ -20,17 +20,10 @@ import {
   DropdownMenuTrigger
 } from '@/components/ui/dropdown-menu';
 import { useTaskStore } from '@/lib/store';
-import { UniqueIdentifier } from '@dnd-kit/core';
 import { Input } from '@/components/ui/input';
 import { toast } from 'sonner';
 
-export function ColumnActions({
-  title,
-  id
-}: {
-  title: string;
-  id: UniqueIdentifier;
-}) {
+export function ColumnActions({ title, id }: { title: string; id: string }) {
   const [name, setName] = React.useState(title);
   const updateCol = useTaskStore((state) => state.updateCol);
   const removeCol = useTaskStore((state) => state.removeCol);
@@ -68,7 +61,7 @@ export function ColumnActions({
             onSelect={() => {
               setIsEditDisable(!editDisable);
               setTimeout(() => {
-                inputRef.current && inputRef.current?.focus();
+                inputRef.current?.focus();
               }, 500);
             }}
           >
