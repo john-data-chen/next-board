@@ -23,10 +23,10 @@ import { useTaskStore } from '@/lib/store';
 import { Input } from '@/components/ui/input';
 import { toast } from 'sonner';
 
-export function ColumnActions({ title, id }: { title: string; id: string }) {
+export function TaskActions({ title, id }: { title: string; id: string }) {
   const [name, setName] = React.useState(title);
-  const updateCol = useTaskStore((state) => state.updateCol);
-  const removeCol = useTaskStore((state) => state.removeCol);
+  const updateTask = useTaskStore((state) => state.updateTask);
+  const removeTask = useTaskStore((state) => state.removeTask);
   const [editDisable, setIsEditDisable] = React.useState(true);
   const [showDeleteDialog, setShowDeleteDialog] = React.useState(false);
   const inputRef = React.useRef<HTMLInputElement>(null);
@@ -37,8 +37,8 @@ export function ColumnActions({ title, id }: { title: string; id: string }) {
         onSubmit={(e) => {
           e.preventDefault();
           setIsEditDisable(!editDisable);
-          updateCol(id, name);
-          toast(`Project ${title} updated to ${name}`);
+          updateTask(id, name);
+          toast(`Task ${title} updated to ${name}`);
         }}
       >
         <Input
@@ -81,11 +81,11 @@ export function ColumnActions({ title, id }: { title: string; id: string }) {
         <AlertDialogContent>
           <AlertDialogHeader>
             <AlertDialogTitle>
-              Are you sure to delete Project: {title}?
+              Are you sure to delete Task: {title}?
             </AlertDialogTitle>
             <AlertDialogDescription>
-              NOTE: All tasks related to project: {title} will also be deleted.
-              This action can not be undone.
+              NOTE: Task: {title} will also be deleted. This action can not be
+              undone.
             </AlertDialogDescription>
           </AlertDialogHeader>
           <AlertDialogFooter>
@@ -97,8 +97,8 @@ export function ColumnActions({ title, id }: { title: string; id: string }) {
                 setTimeout(() => (document.body.style.pointerEvents = ''), 100);
 
                 setShowDeleteDialog(false);
-                removeCol(id);
-                toast('Project has been deleted.');
+                removeTask(id);
+                toast('Task has been deleted.');
               }}
             >
               Delete
