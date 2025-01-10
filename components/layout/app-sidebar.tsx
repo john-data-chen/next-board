@@ -18,15 +18,16 @@ import {
   SidebarMenuSubItem
 } from '@/components/ui/sidebar';
 import { navItems } from '@/constants/sidebar';
-import { ChevronRight, GalleryVerticalEnd } from 'lucide-react';
+import {
+  IconSquareChevronsRightFilled,
+  IconTopologyStar3
+} from '@tabler/icons-react';
 import Link from 'next/link';
 import { usePathname } from 'next/navigation';
 import * as React from 'react';
-import { Icons } from '../icons';
 
 export const company = {
-  name: 'Next Shadcn',
-  logo: GalleryVerticalEnd
+  name: 'Next Dashboard Starter'
 };
 
 export default function AppSidebar() {
@@ -37,7 +38,7 @@ export default function AppSidebar() {
       <SidebarHeader>
         <div className="flex gap-2 py-2 text-sidebar-accent-foreground">
           <div className="flex aspect-square size-8 items-center justify-center rounded-lg bg-sidebar-primary text-sidebar-primary-foreground">
-            <company.logo className="size-4" />
+            <IconTopologyStar3 className="animate-spin" />
           </div>
           <div className="grid flex-1 text-left text-sm leading-tight">
             <span className="truncate font-semibold">{company.name}</span>
@@ -49,7 +50,6 @@ export default function AppSidebar() {
           <SidebarGroupLabel>Overview</SidebarGroupLabel>
           <SidebarMenu>
             {navItems.map((item) => {
-              const Icon = item.icon ? Icons[item.icon] : Icons.logo;
               return item?.items && item?.items?.length > 0 ? (
                 <Collapsible
                   key={item.title}
@@ -63,9 +63,8 @@ export default function AppSidebar() {
                         tooltip={item.title}
                         isActive={pathname === item.url}
                       >
-                        {item.icon && <Icon />}
                         <span>{item.title}</span>
-                        <ChevronRight className="ml-auto transition-transform duration-200 group-data-[state=open]/collapsible:rotate-90" />
+                        <IconSquareChevronsRightFilled className="ml-auto transition-transform duration-200 group-data-[state=open]/collapsible:rotate-90" />
                       </SidebarMenuButton>
                     </CollapsibleTrigger>
                     <CollapsibleContent>
@@ -94,7 +93,6 @@ export default function AppSidebar() {
                     isActive={pathname === item.url}
                   >
                     <Link href={item.url}>
-                      <Icon />
                       <span>{item.title}</span>
                     </Link>
                   </SidebarMenuButton>
