@@ -25,7 +25,7 @@ type UserFormValue = z.infer<typeof formSchema>;
 
 export default function UserAuthForm() {
   const searchParams = useSearchParams();
-  const callbackUrl = searchParams.get('callbackUrl');
+  const callbackUrl = searchParams?.get('callbackUrl');
   const [loading, startTransition] = useTransition();
   const defaultValues = {
     email: 'demo@example.com'
@@ -51,6 +51,8 @@ export default function UserAuthForm() {
         <form
           onSubmit={form.handleSubmit(onSubmit)}
           className="w-full space-y-2"
+          aria-label="Sign in form"
+          role="form"
         >
           <FormField
             control={form.control}

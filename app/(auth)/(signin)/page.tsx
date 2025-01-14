@@ -1,9 +1,9 @@
 import { Metadata } from 'next';
-import SignInViewPage from '../../../components/auth/sigin-view';
+import SignInViewPage from '@/components/auth/SignInView';
 
 export const metadata: Metadata = {
-  title: 'Authentication | Sign In',
-  description: 'Sign In page for authentication.'
+  title: 'Next Board',
+  description: 'A demo project of project management tool'
 };
 
 export default function Page() {
